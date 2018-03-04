@@ -105,7 +105,7 @@ static int output_message(int level, char *buf)
 		if (logfile != NULL)
 		{
 			time_t curtime = time(NULL);
-		    strftime(strTime, 30, "%m-%d-%Y %T  ", localtime(&curtime));
+		    strftime(strTime, 30, "%Y-%m-%d %T  ", localtime(&curtime));
 		}
 		rv = fprintf(fp, "%s%s: %s\n", strTime, progname, buf);
 		if(rv < 0 || fflush(fp)) {
