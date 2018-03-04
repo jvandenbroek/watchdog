@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <time.h>
 
 #include "logmessage.h"
 
@@ -100,8 +101,13 @@ static int output_message(int level, char *buf)
 #else
 	if (using_terminal || using_syslog || logfile != NULL) {
 #endif	/* !USE_SYSLOG */
-//		printf("blabla\n");
-		rv = fprintf(fp, "%s: %s\n", progname, buf);
+		char strTime[30] = { 0 };
+		if (logfile != NULL)
+		{
+			time_t curtime = time(NULL);
+		    strftime(strTime, 30, "%m-%d-%Y %T  ", localtime(&curtime));
+		}
+		rv = fprintf(fp, "%s%s: %s\n", strTime, progname, buf);
 		if(rv < 0 || fflush(fp)) {
 			/* Error writing out to terminal - don't bother trying again. */
 			using_terminal = 0;

@@ -42,8 +42,8 @@
 #endif /*EX_USAGE*/
 
 /* Define bit-values for the 'flags' in open_logging() to decide where messages go. */
-#define MSG_TO_STDERR  1
-#define MSG_TO_SYSLOG  2
+#define MSG_TO_STDERR 1
+#define MSG_TO_SYSLOG 2
 
 /*
  * Enable the printf() format string checking of gcc:
