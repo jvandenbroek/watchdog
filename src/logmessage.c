@@ -80,7 +80,7 @@ static int output_message(int level, char *buf)
 {
 	FILE *fp;
 	if (logfile != NULL)
-		fp = fopen(logfile, "w");
+		fp = fopen(logfile, "a");
 	else
 		fp = stderr;
 
@@ -96,10 +96,11 @@ static int output_message(int level, char *buf)
 		strncpy(err_buf, buf, sizeof(err_buf)-1);
 	}
 
-	if (using_terminal) {
+	if (using_terminal || logfile != NULL) {
 #else
-	if (using_terminal || using_syslog) {
+	if (using_terminal || using_syslog || logfile != NULL) {
 #endif	/* !USE_SYSLOG */
+//		printf("blabla\n");
 		rv = fprintf(fp, "%s: %s\n", progname, buf);
 		if(rv < 0 || fflush(fp)) {
 			/* Error writing out to terminal - don't bother trying again. */
@@ -108,6 +109,8 @@ static int output_message(int level, char *buf)
 			syslog(LOG_WARNING, "failed writing message terminal (rv=%d, errno='%s')", rv, strerror(errno));
 #endif /* USE_SYSLOG */
 		}
+		if (fp != NULL)
+			fclose(fp);
 	}
 
 	return rv;
@@ -194,7 +197,6 @@ int close_logging(void)
 		using_syslog = 0;
 		rv = 0;
 	}
-
 	return rv;
 }
 

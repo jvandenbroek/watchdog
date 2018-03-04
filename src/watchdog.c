@@ -393,6 +393,8 @@ int main(int argc, char *const argv[])
 
 	progname = basename(argv[0]);
 	open_logging(progname, MSG_TO_STDERR | MSG_TO_SYSLOG);
+	//open_logging(progname, MSG_TO_STDERR );
+	//open_logging(progname, MSG_TO_SYSLOG);
 
 	/* check the options */
 	/* there aren't that many any more */
@@ -442,7 +444,6 @@ int main(int argc, char *const argv[])
 			usage(progname);
 		}
 	}
-
 	read_config(configfile);
 
 	if (softboot) {
